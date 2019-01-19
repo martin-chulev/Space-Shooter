@@ -13,6 +13,7 @@ public class Boundary
 
 public class PlayerController : MonoBehaviour
 {
+    public int player;
     public float speed;
     public float tilt;
     public Boundary boundary;
@@ -34,18 +35,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1") == true && Time.time > nextFire)
+        if (Input.GetButton("Fire1 P" + player) == true && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
-            GameObject shotClone = Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+            GameObject shotClone = Instantiate(shot, shotSpawn.position, shotSpawn.rotation, this.transform);
             audioSource.Play();
         }
     }
 
     void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        float moveHorizontal = Input.GetAxis("Horizontal P" + player);
+        float moveVertical = Input.GetAxis("Vertical P" + player);
 
         Vector3 movement = new Vector3(moveHorizontal * speed, 0.0f, moveVertical * speed);
         rb.velocity = movement;

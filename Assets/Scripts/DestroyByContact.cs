@@ -30,15 +30,22 @@ public class DestroyByContact : MonoBehaviour
         {
             return;
         }
+
+        Destroy(other.gameObject);
+        Destroy(this.gameObject);
+
         Instantiate(explosion, this.transform.position, this.transform.rotation);
         if (other.tag == "Player")
         {
-            Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
-            gameController.GameOver();
-        }
+            int playerNumber = int.Parse(other.gameObject.name[other.gameObject.name.Length - 1].ToString());
 
-        gameController.AddScore(scoreValue);
-        Destroy(other.gameObject);
-        Destroy(this.gameObject);
+            gameController.AddScore(scoreValue, playerNumber);
+            Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
+            gameController.GameOver(playerNumber);
+        }
+        else
+        {
+            gameController.AddScore(scoreValue, int.Parse(other.transform.parent.name[other.transform.parent.name.Length - 1].ToString()));
+        }
     }
 }
